@@ -16,10 +16,10 @@
     "lib": ["es7"]
   },
   "include": [
-    "lib/**/*"
+    "lib/*.ts",
+    "lib/spec/**/*"
   ],
   "exclude": [
     "node_modules", 
-    "**/*.spec.ts"
   ]
 }

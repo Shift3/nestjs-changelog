@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 export enum ChangeAction {
   CREATE  = 'create',
@@ -8,8 +8,9 @@ export enum ChangeAction {
 
 @Entity()
 @Index("polymorphic_fk_index", ["itemId", "itemType"])
-export class Change {
+export class Change extends BaseEntity {
   public static currentUserId: string | null;
+  public static currentUserDisplay: string | null;
 
   @PrimaryGeneratedColumn()
   id: number;
@@ -20,7 +21,7 @@ export class Change {
   @Column()
   itemType: string;
 
-  @Column({ type: 'json' })
+  @Column({ type: 'json', nullable: true })
   json: object;
 
   @Column({ type: 'json' })
@@ -28,6 +29,9 @@ export class Change {
 
   @Column({ nullable: true })
   who: string;
+
+  @Column({ nullable: true })
+  whoDisplay: string;
 
   @Index()
   @CreateDateColumn()
