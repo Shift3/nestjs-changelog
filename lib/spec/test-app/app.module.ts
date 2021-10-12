@@ -9,6 +9,7 @@ import { Tracked } from "./tracked.entity";
   imports: [
     TypeOrmModule.forRoot(addChangeDetectionToConnection({
       type: 'postgres',
+      username: process.env.DB_USER || undefined,
       host: 'localhost',
       database: 'nestjs-changelog-tests',
       entities: [Tracked, RelatedThingy],
