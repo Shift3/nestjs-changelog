@@ -1,5 +1,7 @@
 # NestJS ChangeLog
 
+[![CircleCI](https://circleci.com/gh/Shift3/nestjs-changelog/tree/master.svg?style=svg)](https://circleci.com/gh/Shift3/nestjs-changelog/tree/master)
+
 NestJS ChangeLog is a change tracker for NestJS. It is similar to [PaperTrail](https://github.com/paper-trail-gem/paper_trail) in that it hooks into entity events and saves the changes. It stores a ChangeLog that you can view or even revert to previous versions of a tracked entity.
 
 ## Getting Started
