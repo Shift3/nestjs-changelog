@@ -123,6 +123,13 @@ const previousChange = await this.changeRepository.previous(change);
 
 ## Caveats and Limitations
 
+### Associations
+
+Currently the tracking of associations is limited to tracking `@ManyToOne`
+changes. We cannot track changes to `@ManyToMany` or `@OneToMany` without a
+more complicated procedure. This may be in the works later, depending on
+need.
+
 ### Database Decisions
 
 This package was made with the focus of keeping a valid changelog regardless
