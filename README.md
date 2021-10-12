@@ -121,6 +121,21 @@ const previousChange = await this.changeRepository.previous(change);
 
 ## Caveats and Limitations
 
+### Database Decisions
+
+This package was made with the focus of keeping a valid changelog regardless
+of anything that happens. As a result of this a few design choices have been
+made. The users identifying name is denormalized in the database (we do not
+store a foreign key to the user) to the `whoDisplay` column. This is to
+ensure that even if a user is deleted from the database, we are still able to
+an identifying display name, as well as store their old id.
+
+We also store the actual changes as a `json` blob as well. This is to ensure
+that the changes at the time are captured, regardless of how the database
+schema looks.
+
+### TypeORM API
+
 TypeORM has a few eccentricities around which events can be monitored and
 which can't, that users must keep in mind. Since `nestjs-changelog` is based
 around detecting when an entity has changed, there are a few things to be

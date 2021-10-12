@@ -7,17 +7,22 @@ import { ChangeInterceptor } from './change.interceptor';
 import { ChangeRepository } from './change.repository';
 
 export interface ChangeModuleOptions {
-  /* if set, will limit the amount of changes stored per entity instance to
+  /* If set, will limit the amount of changes stored per entity instance to
      the N most recent, where N is the number set here. If unset (by default)
      stores unlimited changes */
   maxChangesPerEntityInstance?: number;
 
-  /* describes how to turn req.user into a display name, the user passed in
+  /* If set you will be pass the express request object and must return the
+     user object for it. You would use this if you have a custom setup and
+     store user at somewhere other than `req.user` */
+  getUserFromRequest?: (req: any) => any;
+
+  /* Describes how to turn req.user into a display name, the user passed in
      comes from the express req.user object, if not provided this will just
      be `user.id`` */
   userToDisplayName?: (user: any) => string;
 
-  /* only use these if you know what you are doing, if for some reason the
+  /* Only use these if you know what you are doing, if for some reason the
      serialization to json and from json is innadequite, you can customize it
      here */
   customSerializer?: <T extends ObjectLiteral>(columns: ColumnMetadata[], entity: T) => object;

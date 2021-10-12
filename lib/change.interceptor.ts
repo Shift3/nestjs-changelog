@@ -18,12 +18,19 @@ export class ChangeInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler) {
     const req = context.switchToHttp().getRequest();
 
-    Change.currentUserId = req?.user?.id;
-    if (req?.user) {
+    let user;
+    if (this.options.getUserFromRequest) {
+      user = this.options.getUserFromRequest(req);
+    } else {
+      user = req.user;
+    }
+
+    Change.currentUserId = user?.id;
+    if (user) {
       if (this.options.userToDisplayName) {
-        Change.currentUserDisplay = this.options.userToDisplayName(req.user);
+        Change.currentUserDisplay = this.options.userToDisplayName(user);
       } else {
-        Change.currentUserDisplay = req.user.id.toString();
+        Change.currentUserDisplay = user.id.toString();
       }
     }
 
