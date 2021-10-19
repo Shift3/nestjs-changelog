@@ -87,6 +87,16 @@ describe('Change Tracking', () => {
 				expect(changeCount).to.eq(1);
 			});
 
+			it('does not track changes to timestamp date columns by default', async () => {
+				let t = await trackedFactory.create();
+				t.updatedAt = new Date();
+				await connection.manager.save(t);	
+
+				const changeCount = await connection.manager.count(Change);
+
+				expect(changeCount).to.eq(1);
+			});
+
 			it('does not serialize OneToMany', async () => {
 				let t = await trackedFactory.create();
 				let r = new RelatedThingy();

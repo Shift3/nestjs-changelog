@@ -67,15 +67,30 @@ Now all you need to do to start tracking changes is pick an entity to track chan
 
 ```typescript
 @Entity()
-@TrackChanges({
-    except: ['createdAt', 'updatedAt']
-})
+@TrackChanges()
 export class MyTrackedEntity extends BaseEntity {
     // ...
 }
 ```
 
 Any change that goes through typeorm's lifecycle hooks in subscribers will now be tracked. Each change will create a `Change` record in the database.
+
+There are some options you can pass to `@TrackChanges`
+
+```typescript
+/* only the attributes listed will trigger the creation of a change record,
+   by default all attributes are watched */
+only?: string[],
+
+/* the attributes listed in `except` will not trigger the creation of a
+   change record if only they are changed */
+except?: string[],
+
+/* allows you to choose whether to ignore timestamps like created at,
+   updated at, and deleted at. By default, timestamps are ignored, set this
+   to false to track changes to timestamps */
+ignoresTimestamps?: boolean,
+```
 
 ## Retrieving the ChangeLog
 

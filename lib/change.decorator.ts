@@ -8,8 +8,15 @@ export interface ITrackChangesOptions {
   /* the attributes listed in `except` will not trigger the creation of a
      change record if only they are changed */
   except?: string[],
+
+  /* allows you to choose whether to ignore timestamps like created at,
+     updated at, and deleted at. By default, timestamps are ignored, set this
+     to false to track changes to timestamps */
+  ignoresTimestamps?: boolean,
 }
-const defaultOptions: ITrackChangesOptions = {}
+const defaultOptions: ITrackChangesOptions = {
+  ignoresTimestamps: true
+}
 
 export function TrackChanges(options?: ITrackChangesOptions): ClassDecorator {
   return function(ctor: Function) {

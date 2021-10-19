@@ -1,4 +1,4 @@
-import { BaseEntity, Column, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { TrackChanges } from "../../change.decorator";
 import { RelatedThingy } from "./related.entity";
 
@@ -24,4 +24,7 @@ export class Tracked extends BaseEntity {
 
 	@DeleteDateColumn()
 	deletedAt: Date;
+
+	@UpdateDateColumn()
+	updatedAt: Date;
 }

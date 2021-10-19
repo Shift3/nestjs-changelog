@@ -42,6 +42,8 @@ export class ChangeRepository extends Repository<Change> {
       columns = columns.filter(c => !(options.except || []).includes(c.propertyName));
     if (options.only)
       columns = columns.filter(c => (options.only || []).includes(c.propertyName));
+    if (options.ignoresTimestamps)
+      columns = columns.filter(c => !c.isUpdateDate && !c.isCreateDate && !c.isDeleteDate)
 
     // NOTE(justin): for update events we track object changes
     let changes: any = {}
