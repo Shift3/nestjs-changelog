@@ -38,10 +38,6 @@ export class ChangeInterceptor implements NestInterceptor {
       .handle()
       .pipe(
         tap(() => { this.reset(); }),
-        catchError(err => {
-          this.reset();
-          return throwError(() => new Error(err));
-        })
       );
   }
 }
