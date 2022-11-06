@@ -4,6 +4,7 @@ import { addChangeDetectionToConnection } from "../..";
 import { ChangeModule } from "../../change.module";
 import { RelatedThingy } from "./related.entity";
 import { Tracked } from "./tracked.entity";
+import { UnTracked } from "./untracked.entity";
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { Tracked } from "./tracked.entity";
       username: process.env.DB_USER || undefined,
       host: 'localhost',
       database: 'nestjs-changelog-tests',
-      entities: [Tracked, RelatedThingy],
+      entities: [Tracked, UnTracked, RelatedThingy],
       synchronize: true,
     })),
     ChangeModule.register({
