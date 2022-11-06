@@ -3,13 +3,15 @@ import { describe } from "mocha";
 import { Change, ChangeAction } from "../change.entity";
 import { ChangeRepository } from "../change.repository";
 import { ChangeSubscriber } from "../change.subscriber";
-import { TrackedFactory } from "./factories";
+import { RelatedFactory, TrackedFactory, UnTrackedFactory } from "./factories";
 import { appModule, connection } from "./helper";
 import { RelatedThingy } from "./test-app/related.entity";
 import { Tracked } from "./test-app/tracked.entity";
 import * as sinon from 'sinon';
 
 const trackedFactory = new TrackedFactory();
+const unTrackedFactory = new UnTrackedFactory();
+const relatedFactory = new RelatedFactory();
 
 describe('Change Tracking', () => {
 	let changeRepository: ChangeRepository;
@@ -356,6 +358,20 @@ describe('Change Tracking', () => {
 
 				expect(changeCount).to.eq(1);
 			})
+
+			it("ignores many-to-many insert for untracked entity", async () => {
+				const entity = await unTrackedFactory.create();
+				const related = await relatedFactory.createMany(3);
+
+				// This inserts records into the join table implcitly created for MTM
+				// relationships. These should not be tracked, and should not fail either.
+				entity.manyRelatedThingies = related;
+				await entity.save();
+
+				const changeCount = await connection.manager.count(Change);
+
+				expect(changeCount).to.eq(0);
+			});
 		});
 
 		describe('#afterUpdate', () => {
