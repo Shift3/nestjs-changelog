@@ -23,7 +23,8 @@ export class ChangeSubscriber implements EntitySubscriberInterface<any> {
     if (ChangeSubscriber.disabled)
       return;
 
-    if (Reflect.hasMetadata("__track_changes", event.entity.constructor)) {
+    if (event.entity &&
+				Reflect.hasMetadata("__track_changes", event.entity.constructor)) {
       await event.connection.getCustomRepository(ChangeRepository).createChangeEntry(event.entity, ChangeAction.CREATE);
     }
   }
